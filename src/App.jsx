@@ -6,6 +6,7 @@ import Search from "./components/Search";
 
 function App() {
   const [appointmentList, setAppointmentList] = useState([]);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     fetch("./data.json")
@@ -14,6 +15,18 @@ function App() {
         setAppointmentList(data);
       });
   }, [setAppointmentList]);
+
+  const filteredAppointments = appointmentList.filter((item) => {
+    return (
+      item.petName.toLowerCase().includes(query.toLowerCase()) ||
+      item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
+      item.aptNotes.toLowerCase().includes(query.toLowerCase())
+    );
+  });
+
+  const onQueryChange = (myQuery) => {
+    setQuery(myQuery);
+  };
 
   const onDeleteAppointment = (appointmentId) => {
     const aptFilter = appointmentList.filter(appointment => appointment.id !== appointmentId);
@@ -27,10 +40,10 @@ function App() {
         Your Appointments
       </h1>
       <AddAppointment />
-      <Search />
+      <Search query={query} onQueryChange={onQueryChange} />
 
       <ul className="divide-y divide-gray-200">
-        {appointmentList.map((appointment) => {
+        {filteredAppointments.map((appointment) => {
           return (
             <AppointmentInfo
               key={appointment.id}
