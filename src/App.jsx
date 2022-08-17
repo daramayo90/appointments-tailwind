@@ -7,6 +7,8 @@ import Search from "./components/Search";
 function App() {
   const [appointmentList, setAppointmentList] = useState([]);
   const [query, setQuery] = useState("");
+  const [sortBy, setSortBy] = useState("petName");
+  const [orderBy, setOrderBy] = useState("asc");
 
   useEffect(() => {
     fetch("./data.json")
@@ -22,6 +24,13 @@ function App() {
       item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
       item.aptNotes.toLowerCase().includes(query.toLowerCase())
     );
+  }).sort((a,b) => {
+    const order = (orderBy === 'asc') ? 1 : -1;
+    return (
+      a[sortBy].toLowerCase() < b[sortBy].toLowerCase()
+        ? -1 * order
+        : 1 * order
+    )
   });
 
   const onQueryChange = (myQuery) => {
