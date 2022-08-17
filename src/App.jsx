@@ -7,8 +7,8 @@ import Search from "./components/Search";
 function App() {
   const [appointmentList, setAppointmentList] = useState([]);
   const [query, setQuery] = useState("");
-  const [sortBy, setSortBy] = useState("petName");
-  const [orderBy, setOrderBy] = useState("asc");
+  const [sortByField, setSortByField] = useState("petName");
+  const [sortByOrder, setSortByOrder] = useState("asc");
 
   useEffect(() => {
     fetch("./data.json")
@@ -25,17 +25,13 @@ function App() {
       item.aptNotes.toLowerCase().includes(query.toLowerCase())
     );
   }).sort((a,b) => {
-    const order = (orderBy === 'asc') ? 1 : -1;
+    const order = (sortByOrder === 'asc') ? 1 : -1;
     return (
-      a[sortBy].toLowerCase() < b[sortBy].toLowerCase()
+      a[sortByField].toLowerCase() < b[sortByField].toLowerCase()
         ? -1 * order
         : 1 * order
     )
   });
-
-  const onQueryChange = (myQuery) => {
-    setQuery(myQuery);
-  };
 
   const onDeleteAppointment = (appointmentId) => {
     const aptFilter = appointmentList.filter(appointment => appointment.id !== appointmentId);
@@ -49,7 +45,13 @@ function App() {
         Your Appointments
       </h1>
       <AddAppointment />
-      <Search query={query} onQueryChange={onQueryChange} />
+      <Search 
+        query={query}
+        sortByOrder={sortByOrder}
+        sortByField={sortByField}
+        onQueryChange={myQuery => setQuery(myQuery)}
+        onSortByField={mySort => setSortByField(mySort)}
+        onSortByOrder={mySort => setSortByOrder(mySort)} />
 
       <ul className="divide-y divide-gray-200">
         {filteredAppointments.map((appointment) => {
