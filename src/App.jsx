@@ -13,7 +13,12 @@ function App() {
       .then((data) => {
         setAppointmentList(data);
       });
-  }, [appointmentList]);
+  }, [setAppointmentList]);
+
+  const onDeleteAppointment = (appointmentId) => {
+    const aptFilter = appointmentList.filter(appointment => appointment.id !== appointmentId);
+    setAppointmentList(aptFilter);
+  };
 
   return (
     <section className="App container mx-auto mt-3 font-thin">
@@ -27,7 +32,11 @@ function App() {
       <ul className="divide-y divide-gray-200">
         {appointmentList.map((appointment) => {
           return (
-            <AppointmentInfo key={appointment.id} appointment={appointment} />
+            <AppointmentInfo
+              key={appointment.id}
+              appointment={appointment}
+              onDeleteAppointment={onDeleteAppointment}
+            />
           );
         })}
       </ul>
