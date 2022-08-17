@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/appointments-tailwind/static/css/main.49ba04e4.css",
+    "main.js": "/appointments-tailwind/static/js/main.602d3d90.js",
+    "index.html": "/appointments-tailwind/index.html",
+    "main.49ba04e4.css.map": "/appointments-tailwind/static/css/main.49ba04e4.css.map",
+    "main.602d3d90.js.map": "/appointments-tailwind/static/js/main.602d3d90.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.49ba04e4.css",
+    "static/js/main.602d3d90.js"
+  ]
+}
